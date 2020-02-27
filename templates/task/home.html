@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Kaban Project</title>
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid bg-info">
+      <div class="container">
+        <h1 class="display-5 text-white">KANBAN - {{ name }}</h1>
+        <p class="lead">Um Trello para você que não quer ter um Trello!</p>
+      </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row ml-1 mr-1 mb-5">
+            {% if tasks is None %}
+                <span>Você ainda não possui nenhuma tarefa!</span>
+            {% endif %}
+
+            {% for st in status %}
+
+                <div class="col-md-3 border border-info rounded">
+
+                    <h2 class="text-center">{{  st.name }}</h2>
+
+
+                    {% for task in tasks %}
+
+                        {% if task.status.name == st.name %}
+
+                            <div class="card mb-3">
+
+                                <div class="card-header bg-info text-white">
+                                    {{ task.name }}
+                                </div>
+
+                                <div class="card-body">
+
+                                    <p class="card-text"> {{ task.content }}</p>
+
+                                    <hr>
+
+                                    <form class="form-group" method="post" action="{% url 'task-destroy' id=task.id %}" style="display: inline-block;">
+                                        {% csrf_token %}
+                                        <button class="btn btn-outline-danger form-control rounded" style="width: 50px;">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+
+                                    </form>
+
+                                    <form class="form-group" method="post" action="{% url 'task-edit' id=task.id %}" style="display: inline-block;">
+                                        {% csrf_token %}
+                                        <button class="btn btn-outline-info form-control rounded" style="width: 50px;">
+                                            <i class="material-icons">update</i>
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <hr>
+        <div class="row mt-4 justify-content-end">
+            <div class="col-md-3">
+                <form class="form-group" method="get" action="{% url 'task-create' %}">
+                    <button class="btn btn-success btn-block form-control">Criar Task</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row mt-1 justify-content-end">
+            <div class="col-md-3">
+                <form class="form-group" method="get" action="{% url 'status-create' %}">
+                    <button class="btn btn-success btn-block form-control">Criar Status</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row mt-1 justify-content-end">
+            <div class="col-md-3">
+                <form class="form-group" method="get" action=" {% url 'status-list' %}">
+                    <button class="btn btn-info btn-block form-control">Status</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
