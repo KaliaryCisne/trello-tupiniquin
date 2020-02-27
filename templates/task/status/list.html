@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Status</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid bg-info">
+      <div class="container">
+        <h1 class="display-5 text-white">Editar Status</h1>
+        <p class="lead">Esses são os status disponíveis para as suas atividades!</p>
+      </div>
+    </div>
+    <div class="container">
+
+        <div class="row">
+            {% if status is None %}
+                <span>Não existe nenhum status criado!</span>
+            {% endif %}
+
+            {% for st in status %}
+                <div class="col-md-3 border border-primary rounded" style="border-color: #003366;">
+                    <form class="form-group" action="{% url 'status-destroy' id=st.id %}">
+                        <h2 class="text-center">{{  st.name }}</h2>
+                        <hr>
+                        <button class="btn btn-outline-danger form-control rounded" style="width: 50px;">
+                            <i class="material-icons">delete</i>
+                        </button>
+{#                        <button class="btn btn-outline-info form-control rounded" style="width: 50px;">#}
+{#                            <i class="material-icons">update</i>#}
+{#                        </button>#}
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row mt-5 justify-content-end">
+            <div class="col-md-3">
+                <form class="form-group" method="get" action="{% url 'status-create' %}">
+                    <button class="btn btn-success btn-block form-control">Criar status</button>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-1 justify-content-end">
+            <div class="col-md-3">
+                <form class="form-group" method="get" action="{% url 'task-list' %}">
+                    <button class="btn btn-info btn-block form-control">Listar tasks</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
